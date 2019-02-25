@@ -1,0 +1,3 @@
+package jam
+
+func validateBenchmarkResult() {}
