@@ -37,12 +37,7 @@ func NewS3Service(db *leveldbwrapper.DBHandle) *S3Service {
 }
 
 func (s S3Service) Upload(pl Payload) error {
-	key := []byte(strconv.Itoa(pl.Key))
-	val := []byte(strconv.Itoa(pl.Content))
-
-	//time.Sleep(time.Duration(networkLatency()) * time.Millisecond)
-
-	if err := s.db.Put(key, val, true); err != nil {
+	if err := s.db.Put(ByteArray(pl.Key), ByteArray(pl.Content), true); err != nil {
 		return err
 	}
 
@@ -52,4 +47,8 @@ func (s S3Service) Upload(pl Payload) error {
 func networkLatency() int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(5)
+}
+
+func ByteArray(k int) []byte {
+	return []byte(strconv.Itoa(k))
 }
