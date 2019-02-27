@@ -23,3 +23,7 @@
 *.db
 *.data
 tmp/
+
+## result from benchmark
+*.txt
+*.html

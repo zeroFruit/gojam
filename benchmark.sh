@@ -17,6 +17,6 @@ function validateParameters {
 validateParameters ${HOST} ${RATE} ${DURATION} ${OUTPUT}
 
 go run cmd/traffic/traffic.go POST ${HOST} | \
-vegeta attack -rate=${RATE} -duration=${DURATION}s | \
+vegeta attack -rate=${RATE} -duration=${DURATION}s -connections 20 | \
 tee ${OUTPUT} | \
 vegeta report

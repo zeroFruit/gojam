@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/zeroFruit/jam"
@@ -23,6 +24,7 @@ func NewApiHandler(s3Service *jam.S3Service) *ApiHandler {
 }
 
 func (h *ApiHandler) HandleIndex(w http.ResponseWriter, r *http.Request) {
+	log.Printf("index route accessed")
 	jam.RespondWithBody(w, http.StatusOK, jam.HelloResponse{Msg: "Hello from naive server"})
 }
 
@@ -31,11 +33,13 @@ func (h *ApiHandler) HandleS3Upload(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
 	}
 
 	content := &jam.PayloadCollection{}
 	if err := decodePayloadCollection(r, content); err != nil {
 		jam.RespondWithError(w, http.StatusBadRequest, err)
+		return
 	}
 
 	uploadedKeys, err := h.uploadCollectionToS3(*content)
