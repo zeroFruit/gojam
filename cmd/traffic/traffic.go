@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/urfave/cli"
-	"github.com/zeroFruit/jam"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/urfave/cli"
+	"github.com/zeroFruit/jam"
 )
 
 var dataDirPath = "./tmp"
@@ -71,17 +72,17 @@ func writeTrafficData(target string, user int, body []byte) error {
 func makePayloadCollection(user, collectionPerUser int) jam.PayloadCollection {
 	pls := make([]jam.Payload, 0)
 
-	for c := user * collectionPerUser; c < (user+1) * collectionPerUser; c++ {
+	for c := user * collectionPerUser; c < (user+1)*collectionPerUser; c++ {
 		p := jam.Payload{
 			Timestamp: time.Now(),
 			Data: jam.Data{
-				Key: c,
+				Key:     c,
 				Content: c,
 			},
 		}
 		pls = append(pls, p)
 	}
-	return jam.PayloadCollection{Payloads:pls}
+	return jam.PayloadCollection{Payloads: pls}
 }
 
 func main() {
@@ -135,5 +136,4 @@ func main() {
 	}
 
 	app.Run(os.Args)
- }
-
+}
