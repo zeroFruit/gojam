@@ -28,14 +28,16 @@ func main() {
 
 	s3Service := jam.NewS3Service(dbProvider.GetDBHandle(*mode))
 
-	var handler jam.ApiHandler
+	var api jam.UploadApi
 
 	switch runningMode(*mode) {
 	case naiveServer:
-		handler = naive.NewApiHandler(s3Service)
+		api = naive.NewUploadApi(s3Service)
 	default:
 		panic(fmt.Sprintf("undefineed server mode - %s", *mode))
 	}
+
+	handler := jam.NewApiHandler(api)
 
 	http.HandleFunc("/", handler.HandleIndex)
 	http.HandleFunc("/upload", handler.HandleS3Upload)
